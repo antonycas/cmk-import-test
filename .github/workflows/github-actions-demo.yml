@@ -1,10 +1,12 @@
-name: First Workflow
+name: Test Checkmk
 on: workflow_dispatch
 jobs:
-  first-job:
+  checkmk-docker-setup:
     runs-on: ubuntu-latest
+    container:
+      image: checkmk/check-mk-raw:2.3.0-latest
     steps:
-      - name: Print Messages
-        run: |
-          echo "Hello World"
-          echo "Done - Goodbye"
+      - name: Verify Checkmk
+        run: which omd
+      - name: List Files
+        run: ls /opt/omd/sites
