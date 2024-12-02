@@ -1,5 +1,5 @@
 name: Test Checkmk
-on: workflow_dispatch
+on: push
 jobs:
   checkmk-docker-setup:
     runs-on: ubuntu-latest
