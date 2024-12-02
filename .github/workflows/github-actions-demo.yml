@@ -3,8 +3,11 @@ on: workflow_dispatch
 jobs:
   checkmk-docker-setup:
     runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        version: ['2.1.0', '2.2.0', '2.3.0']
     container:
-      image: checkmk/check-mk-raw:2.3.0-latest
+      image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
       - name: Verify Checkmk
         run: which omd
