@@ -16,6 +16,6 @@ jobs:
       - name: Verify Checkmk
         run: omd sites
       - name: List Automation Secret
-        run: cat /opt/omd/sites/test/var/check_mk/web/test/automation.secret
+        run: cat /opt/omd/sites/test/var/check_mk/web/automation/automation.secret
       - name: List Files
         run: ls /opt/omd/sites
