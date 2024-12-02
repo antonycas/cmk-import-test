@@ -13,6 +13,12 @@ jobs:
     steps:
       - name: Create OMD site
         run: omd create test
+      - name: List User
+        run: whoami
+      - name: Switch to CMK user
+        run: omd su test
+      - name: Next User
+        run: whoami
       - name: Verify Checkmk
         run: omd sites
       - name: List Files
