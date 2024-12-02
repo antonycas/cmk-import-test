@@ -12,6 +12,6 @@ jobs:
         CMK_SITE_ID: 'test'
     steps:
       - name: Verify Checkmk
-        run: omd sites
+        run: sudo omd sites
       - name: List Files
-        run: ls /opt/omd/sites
+        run: sudo ls /opt/omd/sites
