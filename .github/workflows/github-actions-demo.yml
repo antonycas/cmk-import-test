@@ -10,6 +10,6 @@ jobs:
       image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
       - name: Verify Checkmk
-        run: which omd
+        run: omd sites
       - name: List Files
         run: ls /opt/omd/sites
