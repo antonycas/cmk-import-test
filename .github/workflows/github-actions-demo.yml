@@ -11,7 +11,9 @@ jobs:
       env:
         CMK_SITE_ID: 'test'
     steps:
+      - name: show users
+        run: cat /etc/passwd
       - name: Verify Checkmk
-        run: sudo omd sites
+        run: omd sites
       - name: List Files
-        run: sudo ls /opt/omd/sites
+        run: ls /opt/omd/sites
