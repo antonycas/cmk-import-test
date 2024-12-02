@@ -11,8 +11,8 @@ jobs:
       env:
         CMK_SITE_ID: 'test'
     steps:
-      - name: show users
-        run: cat /etc/passwd
+      - name: Create OMD site
+        run: omd create test
       - name: Verify Checkmk
         run: omd sites
       - name: List Files
