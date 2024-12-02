@@ -8,6 +8,8 @@ jobs:
         version: ['2.1.0', '2.2.0', '2.3.0']
     container:
       image: checkmk/check-mk-raw:${{ matrix.version }}-latest
+      env:
+        CMK_SITE_ID: 'test'
     steps:
       - name: Verify Checkmk
         run: omd sites
