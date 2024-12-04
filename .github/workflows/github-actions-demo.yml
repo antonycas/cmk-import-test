@@ -18,7 +18,7 @@ jobs:
       - name: List Docker Containers
         run: docker ps -a
       - name: Remove cmk Site
-        run: docker exec monitoring sh -c "omd rm cmk"
+        run: docker exec monitoring sh -c "omd -f rm cmk"
       - name: Create Test Site
         run: docker exec monitoring sh -c "omd create test"
       - name: Output Automation
