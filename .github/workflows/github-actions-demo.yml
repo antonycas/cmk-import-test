@@ -9,10 +9,10 @@ jobs:
     #container:
     #  image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
-      name: Check for scp
-      run: |
-        which scp
-        which openssh-server
+      - name: Check for scp
+        run: |
+          which scp
+          which openssh-server
       
       
       
