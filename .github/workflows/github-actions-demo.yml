@@ -3,19 +3,23 @@ on: push
 jobs:
   checkmk-docker-setup:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: ['2.1.0', '2.2.0', '2.3.0']
-    container:
-      image: checkmk/check-mk-raw:${{ matrix.version }}-latest
-      env:
-        CMK_SITE_ID: 'test'
+    #strategy:
+    #  matrix:
+    #    version: ['2.1.0', '2.2.0', '2.3.0']
+    #container:
+    #  image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
-      - name: Create OMD site
-        run: omd create test
-      - name: Verify Checkmk
-        run: omd sites
-      - name: List Automation Secret
-        run: cat /opt/omd/sites/test/var/check_mk/web/automation/automation.secret
-      - name: List Files
-        run: ls /opt/omd/sites
+      #- name: Get Docker Image
+      #  run: docker login registry.checkmk.com
+      #- name: Create OMD site
+      #  run: omd create test
+      - name: Create CheckMK Docker Container
+        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:2.3.0-latest
+      - name: List Docker Containers
+        run: docker ps -a
+      #- name: Verify Checkmk
+      #  run: docker omd sites
+      #- name: List Automation Secret
+      #  run: cat /opt/omd/sites/test/var/check_mk/web/automation/automation.secret
+      #- name: List Files
+      #  run: ls /opt/omd/sites
