@@ -11,12 +11,12 @@ jobs:
     steps:
       - name: Create CheckMK Docker Container
         run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:2.3.0-latest
-      - name: List Docker Containers
-        run: docker ps -a
       - name: List Monitoring Logs
         run: docker container logs monitoring
       - name: List Container Users
         run: docker exec monitoring sh -c "cat /etc/passwd"
+      - name: Site Status
+        run: docker exec monitoring sh -c "omd status cmk"
       - name: Start cmk site
         run: docker exec monitoring sh -c "omd start cmk"
       - name: Create Test Site
