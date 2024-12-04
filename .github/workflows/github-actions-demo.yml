@@ -17,8 +17,10 @@ jobs:
         run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:2.3.0-latest
       - name: List Docker Containers
         run: docker ps -a
+      - name: list sites
+        name: docker exec monitoring sh -c "ls /opt/omd/sites/"
       - name: Output Automation
-        run: docker exec monitoring cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret
+        run: docker exec monitoring sh -c "cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret"
       #- name: Verify Checkmk
       #  run: docker omd sites
       #- name: List Automation Secret
