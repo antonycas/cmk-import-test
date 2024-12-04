@@ -19,6 +19,8 @@ jobs:
         run: docker ps -a
       - name: List Current User
         run: docker exec monitoring sh -c "whoami"
+      - name: Disable cmk Site
+        run: docker exec monitoring sh -c "omd disable --kill cmk"
       - name: Remove cmk Site
         run: docker exec monitoring sh -c "omd -f rm cmk"
       - name: Create Test Site
