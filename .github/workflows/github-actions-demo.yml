@@ -18,7 +18,7 @@ jobs:
       - name: List Docker Containers
         run: docker ps -a
       - name: list sites
-        run: docker exec monitoring sh -c "ls /opt/omd/sites/"
+        run: docker exec monitoring sh -c "ls /opt/omd/sites/cmk"
       - name: Output Automation
         run: docker exec monitoring sh -c "cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret"
       #- name: Verify Checkmk
