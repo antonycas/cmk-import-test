@@ -3,16 +3,14 @@ on: push
 jobs:
   checkmk-docker-setup:
     runs-on: ubuntu-latest
-    #strategy:
-    #  matrix:
-    #    version: ['2.1.0', '2.2.0', '2.3.0']
-    #container:
-    #  image: checkmk/check-mk-raw:${{ matrix.version }}-latest
+    strategy:
+      matrix:
+        version: ['2.1.0', '2.2.0', '2.3.0']
+    container:
+      image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
-      - name: Check for scp
-        run: |
-          which scp
-          which openssh-server
+      - name: Check OUTPUT
+        run: echo $GIT_OUTPUT
       
       
       
