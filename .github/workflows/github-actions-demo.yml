@@ -9,8 +9,8 @@ jobs:
     container:
       image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
-      - name: Check OUTPUT
-        run: echo $GIT_OUTPUT
+      - name: Check Dist
+        run: cat /etc/os-release
       
       
       
