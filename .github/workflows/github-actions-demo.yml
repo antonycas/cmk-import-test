@@ -21,7 +21,7 @@ jobs:
         run: docker exec monitoring sh -c "omd create test"
       - name: Output Automation
         id: output-automation
-        run: echo automation_secret=$(docker exec monitoring sh -c "cat /opt/omd/sites/test/var/check_mk/web/automation/automation.secret") >> $GIT_OUTPUT
+        run: echo "automation_secret=$(docker exec monitoring sh -c cat /opt/omd/sites/test/var/check_mk/web/automation/automation.secret)" >> $GIT_OUTPUT
       - name: Display Secret
         run: echo "${{ steps.output-automation.outputs.automation_secret }}"
       #- name: Verify Checkmk
