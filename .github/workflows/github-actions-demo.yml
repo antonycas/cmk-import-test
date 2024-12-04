@@ -9,20 +9,16 @@ jobs:
     #container:
     #  image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
-      #- name: Get Docker Image
-      #  run: docker login registry.checkmk.com
-      #- name: Create OMD site
-      #  run: omd create test
       - name: Create CheckMK Docker Container
         run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:2.3.0-latest
       - name: List Docker Containers
         run: docker ps -a
+      - name: List Monitoring Logs
+        run: docker container logs monitoring
       - name: List Container Users
         run: docker exec monitoring sh -c "cat /etc/passwd"
       - name: Start cmk site
-        run: docker exec --user cmk monitoring sh -c "omd start cmk"
-      #- name: Remove cmk Site
-      #  run: docker exec monitoring sh -c "omd -f rm cmk"
+        run: docker exec monitoring sh -c "omd start cmk"
       - name: Create Test Site
         run: docker exec monitoring sh -c "omd create test"
       - name: Output Automation
@@ -30,9 +26,3 @@ jobs:
         run: docker exec monitoring sh -c 'echo "automation_secret=$(cat /opt/omd/sites/test/var/check_mk/web/automation/automation.secret)"'
       - name: Display Secret
         run: echo "${{ steps.output-automation.outputs.automation_secret }}"
-      #- name: Verify Checkmk
-      #  run: docker omd sites
-      #- name: List Automation Secret
-      #  run: cat /opt/omd/sites/test/var/check_mk/web/automation/automation.secret
-      #- name: List Files
-      #  run: ls /opt/omd/sites
