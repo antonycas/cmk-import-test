@@ -19,12 +19,8 @@ jobs:
         run: docker ps -a
       - name: OMD Status
         run: docker exec monitoring sh -c "omd status"
-      - name: List Current User
-        run: docker exec monitoring sh -c "whoami"
-      - name: List Docker Users
-        run: docker exec monitoring sh -c "who"
-      - name: Disable cmk Site
-        run: docker exec monitoring sh -c "omd disable --kill cmk"
+      - name: Log Out cmk user
+        run: docker exec monitoring sh -c "pkill -KILL -u cmk"
       - name: Remove cmk Site
         run: docker exec monitoring sh -c "omd -f rm cmk"
       - name: Create Test Site
