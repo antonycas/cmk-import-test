@@ -17,6 +17,8 @@ jobs:
         run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:2.3.0-latest
       - name: List Docker Containers
         run: docker ps -a
+      - name: List Container Users
+        run: docker exec monitoring sh -c "cat /etc/passwd"
       - name: Start cmk site
         run: docker exec --user cmk monitoring sh -c "omd start cmk"
       #- name: Remove cmk Site
