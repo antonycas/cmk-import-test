@@ -8,14 +8,19 @@ on:
       version:
         type: string
         required: true
+    outputs:
+      latest-version: ${{ jobs.get-checkmk-docker.outputs.latest-version }}
 jobs:
   get-checkmk-docker:
     runs-on: ubuntu-latest
+    outputs:
+      latest-version: ${{ steps.get-latest-version.outputs.latest-version }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: Echo Version
-        run: ./scripts/get-latest-cmk-version.py ${{ inputs.version }}
+      - name: Get Latest Version
+        id: get-latest-version
+        run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
       
       
       
