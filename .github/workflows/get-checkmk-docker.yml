@@ -5,19 +5,19 @@ on:
       artifact-name:
         type: string
         required: true
-      versions:
-        type: list
+      version:
+        type: string
         required: true
 jobs:
   get-checkmk-docker:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        version: ${{ inputs.versions }}
+    #strategy:
+    #  matrix:
+    #    version: ${{ inputs.versions }}
 
     steps:
       - name: Echo Version
-        run: echo "${{ contains('p', inputs.versions) && inputs.versions || 'doesnt contain p' }}"
+        run: echo "${{ contains('p', inputs.version) && inputs.version || 'doesnt contain p' }}"
       
       
       
