@@ -6,11 +6,13 @@ jobs:
     strategy:
       matrix:
         version: ['2.1.0', '2.2.0', '2.3.0']
-    container:
-      image: checkmk/check-mk-raw:${{ matrix.version }}-latest
+    #container:
+    #  image: checkmk/check-mk-raw:${{ matrix.version }}-latest
     steps:
-      - name: Check Dist
-        run: cat /etc/os-release
+      - name: Start Docker Container
+        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ matrix.version }}-latest
+      - name: List Running Container Processes
+        run: ps aux
       
       
       
