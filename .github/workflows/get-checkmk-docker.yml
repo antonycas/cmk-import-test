@@ -10,7 +10,7 @@ on:
         required: true
     outputs:
       latest-version:
-        description: Latest Version for ${{ inputs.version }}
+        description: "Latest Version for ${{ inputs.version }}"
         value: ${{ jobs.get-checkmk-docker.outputs.latest-version }}
 jobs:
   get-checkmk-docker:
