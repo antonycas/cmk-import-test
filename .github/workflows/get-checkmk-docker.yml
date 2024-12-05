@@ -17,7 +17,7 @@ jobs:
       - name: List Files
         run: ls scripts
       - name: Echo Version
-        run: sudo scripts/get-latest-cmk-version.py ${{ inputs.version }}
+        run: sudo /scripts/get-latest-cmk-version.py ${{ inputs.version }}
       #- name: Echo Version
       #  run: echo "${{ contains('p', inputs.version) && inputs.version || 'doesnt contain p' }}"
       
