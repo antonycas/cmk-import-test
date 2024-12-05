@@ -14,12 +14,8 @@ jobs:
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
-      - name: List Files
-        run: ls scripts
       - name: Echo Version
         run: ./scripts/get-latest-cmk-version.py ${{ inputs.version }}
-      #- name: Echo Version
-      #  run: echo "${{ contains('p', inputs.version) && inputs.version || 'doesnt contain p' }}"
       
       
       
