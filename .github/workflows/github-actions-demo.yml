@@ -25,7 +25,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: Automation Secret
-          path: ./automation_secret
+          path: ./automation_secret_${{ matrix.version }}
       - name: List Running Container Processes
         run: docker exec monitoring sh -c "ps aux | grep -E '/usr/bin/omd create.*cmk' | head -n 1" 
       
