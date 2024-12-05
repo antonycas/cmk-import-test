@@ -11,8 +11,16 @@ jobs:
     steps:
       - name: Start Docker Container
         run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ matrix.version }}-latest
+      - name: List omd status
+        run: docker exec monitoring sh -c "omd status"
+        continue-on-error: true
+      - name: Sleep 30s
+        run: docker exec monitoring sh -c "sleep 30s"
+        shell: bash
+      - name: List omd status
+        run: docker exec monitoring sh -c "omd status"
       - name: List Running Container Processes
-        run: docker exec monitoring sh -c "ps aux | grep -E '/usr/bin/omd create.*cmk'" 
+        run: docker exec monitoring sh -c "ps aux | grep -E '/usr/bin/omd create.*cmk' | head -n 1" 
       
       
       
