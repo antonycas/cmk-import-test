@@ -20,12 +20,12 @@ jobs:
       - name: List omd status
         run: docker exec monitoring sh -c "omd status"
       - name: Copy Automation to Runner
-        run: docker cp monitoring:/opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret ./automation_secret_${{ matrix.version }}
+        run: docker cp monitoring:/opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret ./automation_secret
       - name: Get Automation Secret
         uses: actions/upload-artifact@v4
         with:
-          name: Automation Secret
-          path: ./automation_secret_${{ matrix.version }}
+          name: Automation Secret ${{ matrix.version }}
+          path: ./automation_secret
       - name: List Running Container Processes
         run: docker exec monitoring sh -c "ps aux | grep -E '/usr/bin/omd create.*cmk' | head -n 1" 
       
