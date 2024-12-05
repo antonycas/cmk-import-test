@@ -2,11 +2,11 @@ name: Checkmk Test
 on: push
 jobs:
   get-checkmk-docker:
-    uses: ./github/workflows/get-checkmk-docker.yml
+    uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       versions:
         - 2.1
         - 2.2
         - 2.3.0p36
       artifact-name: madeup      
-  
+    
