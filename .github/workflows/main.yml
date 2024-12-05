@@ -7,7 +7,7 @@ jobs:
         versions:
           - '2.1.0'
           - '2.2.0'
-          - '2.3.0p36'
+          - '2.3.0p22'
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       version: ${{ matrix.versions }}
