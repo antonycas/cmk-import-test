@@ -11,13 +11,13 @@ on:
 jobs:
   get-checkmk-docker:
     runs-on: ubuntu-latest
-    #strategy:
-    #  matrix:
-    #    version: ${{ inputs.versions }}
-
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
       - name: Echo Version
-        run: echo "${{ contains('p', inputs.version) && inputs.version || 'doesnt contain p' }}"
+        run: /scripts/get-latest-cmk-version.py ${{ inputs.version }}
+      #- name: Echo Version
+      #  run: echo "${{ contains('p', inputs.version) && inputs.version || 'doesnt contain p' }}"
       
       
       
