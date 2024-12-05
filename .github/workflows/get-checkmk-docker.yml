@@ -23,3 +23,7 @@ jobs:
       - name: Get Latest Version
         id: get-latest-version
         run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
+      - name: Download Checkmk
+        run: wget https://download.checkmk.com/checkmk/${{ steps.get-latest-version.outputs.latest-version }}/check-mk-raw-docker-${{ steps.get-latest-version.outputs.latest-version }}
+      - name: list files
+        run: ls

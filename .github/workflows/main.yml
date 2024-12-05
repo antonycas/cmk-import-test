@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       version: ${{ matrix.versions }}
-      artifact-name: madeup
+      artifact-name: cmk-docker-image-${{ matrix.version }}
   echo-latest-version:
     runs-on: ubuntu-latest
     needs: get-checkmk-docker
