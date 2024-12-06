@@ -27,9 +27,9 @@ jobs:
         shell: bash
       - name: Output CMK URL
         id: get-cmk-url
-        run: echo "cmk_url=$(docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 10)" >> $GITHUB_OUTPUT
+        run: echo "cmk-url=$(docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 10)" >> $GITHUB_OUTPUT
       - name: Output Automation Secret
         id: output-automation-secret
-        run: echo "automation_secret=$(docker exec monitoring sh -c 'cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret')" >> $GITHUB_OUTPUT
+        run: echo "automation-secret=$(docker exec monitoring sh -c 'cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret')" >> $GITHUB_OUTPUT
       - name: Test CheckMK Connectivity
-        run: "curl http://localhost:8080/cmk/check_mk/api/1.0/domain-types/host_config/collections/all --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation_secret }}' --header 'Accept: application/json'" 
+        run: "curl http://localhost:8080/cmk/check_mk/api/1.0/domain-types/host_config/collections/all --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation-secret }}' --header 'Accept: application/json'" 
