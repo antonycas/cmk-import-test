@@ -7,14 +7,28 @@ jobs:
         versions:
           - '2.1.0'
           - '2.2.0'
-          - '2.3.0p22'
+          - '2.3.0p22'  
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       version: ${{ matrix.versions }}
       artifact-name: cmk-docker-image-${{ matrix.version }}
-  echo-latest-version:
+  
+  run-checkmk-docker:
+    strategy:
+      matrix:
+        versions:
+          - '2.1.0'
+          - '2.2.0'
+          - '2.3.0p22'
     runs-on: ubuntu-latest
     needs: get-checkmk-docker
     steps:
-      - run: echo ${{ needs.get-checkmk-docker.outputs.latest-version }}      
+      - name: Download Dockerfile Artifact
+        uses: actions/download-artifact@v4
+          with:
+            name: checkmk-docker-${{ matrix.version }}
+      - name: Run Docker Container
+        run: docker load -i check-mk-raw-docker-${{ matrix.version }}.tar.gz 
+      - name: List Running Docker Containers
+        run: docker ps -a     
     
