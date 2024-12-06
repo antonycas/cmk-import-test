@@ -21,4 +21,4 @@ jobs:
         id: output-versions-matrix
         run: echo "versions-matrix=$(./scripts/create-versions-matrix.py ${{ inputs.versions }})" >> $GITHUB_OUTPUT 
       - name: Echo Versions Matrix
-        run: echo "${{ steps.otuput-versions-matrix.outputs.versions-matrix }}" 
+        run: echo "${{ steps.output-versions-matrix.outputs.versions-matrix }}" 
