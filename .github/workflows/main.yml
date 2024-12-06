@@ -27,8 +27,10 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: "checkmk-docker-${{ needs.get-checkmk-docker.outputs.latest-version }}"
+      - name: Load Docker Container
+        run: docker load -i check-mk-raw-docker-${{ needs.get-checkmk-docker.outputs.latest-version }}.tar.gz
       - name: Run Docker Container
-        run: docker load -i check-mk-raw-docker-${{ needs.get-checkmk-docker.outputs.latest-version }}.tar.gz 
+        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ needs.get-checkmk-docker.outputs.latest-version }} 
       - name: List Running Docker Containers
         run: docker ps -a     
     
