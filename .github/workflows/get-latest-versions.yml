@@ -11,7 +11,7 @@ on:
         value: ${{ jobs.output-versions-matrix.outputs.versions-matrix }}
 jobs:
   output-versions-matrix:
-    runs: ubuntu-latest
+    runs-on: ubuntu-latest
     outputs:
       versions-matrix: ${{ steps.output-versions-matrix.outputs.version-matrix }}
     steps:
