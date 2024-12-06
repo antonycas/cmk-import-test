@@ -28,3 +28,5 @@ jobs:
       - name: Get CMK URL
         id: get-cmk-url
         run: echo "cmk_url=$(docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 10)" >> $GITHUB_OUTPUT
+      - name: Test CheckMK Connectivity
+        run: curl http://localhost:8080
