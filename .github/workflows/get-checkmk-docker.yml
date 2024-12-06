@@ -28,6 +28,6 @@ jobs:
       - name: Create Dockerfile Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: checkmk-docker-${{ steps.get-latest-version.outputs.latest-version }}
+          name: ${{ inputs.artifact-name }}-${{ steps.get-latest-version.outputs.latest-version }}
           path: check-mk-raw-docker-${{ steps.get-latest-version.outputs.latest-version }}.tar.gz
           retention-days: 1

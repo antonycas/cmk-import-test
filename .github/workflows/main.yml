@@ -11,7 +11,7 @@ jobs:
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       version: ${{ matrix.versions }}
-      artifact-name: checkmk-docker-${{ matrix.version }}
+      artifact-name: checkmk-docker
 
   test-checkmk-connectivity:
     needs: get-checkmk-docker
