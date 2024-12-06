@@ -26,4 +26,5 @@ jobs:
         run: sleep 45s
         shell: bash
       - name: Get CMK URL
+        ID: get-cmk-url
         run: echo "cmk_url=$(docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 10)" >> $GITHUB_OUTPUT
