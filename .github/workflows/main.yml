@@ -25,8 +25,8 @@ jobs:
     steps:
       - name: Download Dockerfile Artifact
         uses: actions/download-artifact@v4
-          with:
-            name: checkmk-docker-${{ matrix.version }}
+        with:
+          name: checkmk-docker-${{ matrix.version }}
       - name: Run Docker Container
         run: docker load -i check-mk-raw-docker-${{ matrix.version }}.tar.gz 
       - name: List Running Docker Containers
