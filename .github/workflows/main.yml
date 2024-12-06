@@ -1,16 +1,18 @@
 name: Checkmk Test
 on: push
 jobs:
+  get-latest_versions:
+    uses: ./.github/workflows/get-latest-versions.yml
+    with:
+      versions: "2.1.0,2.2.0,2.3.0"
+
   get-checkmk-docker:
+    needs: get-latest-versions 
     strategy:
-      matrix:
-        versions:
-          - '2.1.0'
-          #- '2.2.0'
-          #- '2.3.0p22'  
+      matrix: ${{ fromJSON(needs.get-latest-versions.outputs.versions-matrix) }} 
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
-      version: ${{ matrix.versions }}
+      version: ${{ matrix.version }}
       artifact-name: checkmk-docker
 
   test-checkmk-connectivity:

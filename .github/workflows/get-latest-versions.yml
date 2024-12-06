@@ -1,0 +1,22 @@
+name: Get Latest CheckMK Versions
+on:
+  workflow_call:
+    inputs:
+      versions:
+        type: string
+        required: true
+    outputs:
+      versions-matrix:
+        description: Versions Matrix From Versions Input
+        value: ${{ steps.output-versions-matrix.outputs.versions-matrix }}
+jobs:
+  create-versions-matrix:
+    runs: ubuntu-latest
+    outputs:
+      versions-matrix: ${{ steps.output-versions-matrix.outputs.version-matrix }}
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Output Versions Matrix
+        id: output-versions-matrix
+        run: echo "versions-matrix=$(./scripts/create-versions-matrix.py ${{ inputs.versions }})" >> $GITHUB_OUTPUT  
