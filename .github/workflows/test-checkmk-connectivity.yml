@@ -32,4 +32,4 @@ jobs:
         id: output-automation-secret
         run: echo "automation_secret=$(docker exec monitoring sh -c 'cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret')" >> $GITHUB_OUTPUT
       - name: Test CheckMK Connectivity
-        run: curl http://localhost:8080/cmk/check_mk/api/1.0/domain-types/host_config/all --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation_secret }}' --header "Accept: application/json" 
+        run: "curl http://localhost:8080/cmk/check_mk/api/1.0/domain-types/host_config/all --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation_secret }}' --header 'Accept: application/json'" 
