@@ -25,8 +25,11 @@ jobs:
       - name: Sleep to Allow Site Setup
         run: sleep 45s
         shell: bash
-      - name: Get CMK URL
+      - name: Output CMK URL
         id: get-cmk-url
         run: echo "cmk_url=$(docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 10)" >> $GITHUB_OUTPUT
+      - name: Output Automation Secret
+        id: output-automation-secret
+        run: echo "automation_secret=$(docker exec monitoring sh -c 'cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret')" >> $GITHUB_OUTPUT
       - name: Test CheckMK Connectivity
-        run: curl http://localhost:8080/cmk/check_mk/
+        run: curl http://localhost:8080/cmk/check_mk/api/1.0/domain-types/host_config/all --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation_secret }}' --header "Accept: application/json" 
