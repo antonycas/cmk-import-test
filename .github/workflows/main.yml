@@ -12,25 +12,17 @@ jobs:
     with:
       version: ${{ matrix.versions }}
       artifact-name: cmk-docker-image-${{ matrix.version }}
-  
-  run-checkmk-docker:
-    strategy:
-      matrix:
-        versions:
-          - '2.1.0'
-          - '2.2.0'
-          - '2.3.0p22'
-    runs-on: ubuntu-latest
-    needs: get-checkmk-docker
-    steps:
-      - name: Download Dockerfile Artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: "checkmk-docker-${{ needs.get-checkmk-docker.outputs.latest-version }}"
-      - name: Load Docker Container
-        run: docker load -i check-mk-raw-docker-${{ needs.get-checkmk-docker.outputs.latest-version }}.tar.gz
-      - name: Run Docker Container
-        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ needs.get-checkmk-docker.outputs.latest-version }} 
-      - name: List Running Docker Containers
-        run: docker ps -a     
+
+  #test-checkmk-connectivity:
+  #  needs: get-checkmk-docker
+  #  strategy:
+  #    matrix:
+  #      versions:
+  #        - '2.1.0'
+  #        - '2.2.0'
+  #        - '2.3.0p22'
+  #  uses: ./.github/workflows/test-checkmk-connectivity.yml
+  #  with:
+  #    version: ${{ matrix.version }}
+    
     
