@@ -23,6 +23,6 @@ jobs:
           - '2.3.0p22'
     uses: ./.github/workflows/test-checkmk-connectivity.yml
     with:
-      version: ${{ matrix.version }}
+      version: ${{ matrix.versions }}
     
     
