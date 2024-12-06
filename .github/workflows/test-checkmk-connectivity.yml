@@ -26,4 +26,4 @@ jobs:
         run: sleep 45s
         shell: bash
       - name: Get CMK URL
-        run: docker container logs monitoring | grep 'The default web UI is available at' | cut -f 8
+        run: docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 8
