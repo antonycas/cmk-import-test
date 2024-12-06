@@ -18,16 +18,11 @@ jobs:
     outputs:
       latest-version: ${{ steps.get-latest-version.outputs.latest-version }}
     steps:
-      #- name: Checkout Code
-      #  uses: actions/checkout@v4
-      #- name: Get Latest Version
-      #  id: get-latest-version
-      #  run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
-      - name: Get Latest CheckMK Version
-        id: get-latest-cmk-version
-        uses: ./.github/workflows/get-latest-cmk-version.yml
-        with:
-          version: ${{ inputs.version }}
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Get Latest Version
+        id: get-latest-version
+        run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
       - name: Download Checkmk
         run: wget --no-verbose https://download.checkmk.com/checkmk/${{ steps.get-latest-version.outputs.latest-version }}/check-mk-raw-docker-${{ steps.get-latest-version.outputs.latest-version }}.tar.gz
       - name: Create Dockerfile Artifact

@@ -11,13 +11,18 @@ on:
 jobs:
   test-checkmk-connectivity:
     steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Get Latest Version
+        id: get-latest-version
+        run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
       - name: Download Dockerfile Artifact
         uses: actions/download-artifact@v4
         with:
-          name: "${{ inputs.artifact }}"
+          name: "cmk-docker-image-${{ steps.get-latest-version.outputs.latest-version }}"
       - name: Load Docker Container
-        run: docker load -i check-mk-raw-docker-${{ inputs.version }}.tar.gz
+        run: docker load -i check-mk-raw-docker-${{ steps.get-latest-version.outputs.latest-version }}.tar.gz
       - name: Run Docker Container
-        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ inputs.version }}
-      - name: List Running Containers
-        run: docker ps -a
+        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ steps.get-latest-version.outputs.latest-version }}
+      - name: Get CMK URL
+        run: docker container logs monitoring

@@ -13,16 +13,16 @@ jobs:
       version: ${{ matrix.versions }}
       artifact-name: cmk-docker-image-${{ matrix.version }}
 
-  #test-checkmk-connectivity:
-  #  needs: get-checkmk-docker
-  #  strategy:
-  #    matrix:
-  #      versions:
-  #        - '2.1.0'
-  #        - '2.2.0'
-  #        - '2.3.0p22'
-  #  uses: ./.github/workflows/test-checkmk-connectivity.yml
-  #  with:
-  #    version: ${{ matrix.version }}
+  test-checkmk-connectivity:
+    needs: get-checkmk-docker
+    strategy:
+      matrix:
+        versions:
+          - '2.1.0'
+          - '2.2.0'
+          - '2.3.0p22'
+    uses: ./.github/workflows/test-checkmk-connectivity.yml
+    with:
+      version: ${{ matrix.version }}
     
     
