@@ -8,9 +8,9 @@ on:
     outputs:
       versions-matrix:
         description: Versions Matrix From Versions Input
-        value: ${{ steps.output-versions-matrix.outputs.versions-matrix }}
+        value: ${{ jobs.output-versions-matrix.outputs.versions-matrix }}
 jobs:
-  create-versions-matrix:
+  output-versions-matrix:
     runs: ubuntu-latest
     outputs:
       versions-matrix: ${{ steps.output-versions-matrix.outputs.version-matrix }}
