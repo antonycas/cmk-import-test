@@ -16,8 +16,6 @@ jobs:
         run: echo "$matrix"
 
   get-checkmk-docker:
-    env:
-      versions-matrix: ${{ needs.get-latest-versions.outputs.versions-matrix }}
     needs: echo-matrix #get-latest-versions
     strategy:
       matrix: "${{ fromJSON(needs.get-latest-versions.outputs.versions-matrix) }}" 
