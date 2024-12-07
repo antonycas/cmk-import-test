@@ -29,35 +29,31 @@ jobs:
       - name: echo needs
         run: echo "${{ needs.get-latest-versions.outputs.versions }}"
 
-  get-checkmk-docker:
-    needs: get-latest-versions
-    runs-on: ubuntu-latest
-    strategy:
-      matrix: 
-        version: ${{ fromJSON(needs.get-latest-versions.outputs.versions) }}
-    steps:
-      #- name: Define Version
-      #  env:
-      #    version: ${{ matrix.version }}
-      #  run: |
-      #    echo "$version" > version
-      - name: Download Checkmk
-        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ matrix.version }}/check-mk-raw-docker-${{ matrix.version }}.tar.gz
-      - name: Create Dockerfile Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: checkmk-docker-${{ matrix.version }}
-          path: check-mk-raw-docker-${{ matrix.version }}.tar.gz
-          retention-days: 1
-
   #get-checkmk-docker:
   #  needs: get-latest-versions
+  #  runs-on: ubuntu-latest
   #  strategy:
-  #    matrix: "${{ fromJSON(needs.get-latest-versions.outputs.matrix) }}" 
-  #  uses: ./.github/workflows/get-checkmk-docker.yml
-  #  with:
-  #    version: ${{ matrix.version }}
-  #    artifact-name: checkmk-docker
+  #    matrix: 
+  #      version: ${{ fromJSON(needs.get-latest-versions.outputs.versions) }}
+  #  steps:
+  #    - name: Download Checkmk
+  #      run: wget --no-verbose https://download.checkmk.com/checkmk/${{ matrix.version }}/check-mk-raw-docker-${{ matrix.version }}.tar.gz
+  #    - name: Create Dockerfile Artifact
+  #      uses: actions/upload-artifact@v4
+  #      with:
+  #        name: checkmk-docker-${{ matrix.version }}
+  #        path: check-mk-raw-docker-${{ matrix.version }}.tar.gz
+  #        retention-days: 1
+
+  get-checkmk-docker:
+    needs: get-latest-versions
+    strategy:
+      matrix: 
+        version: "${{ fromJSON(needs.get-latest-versions.outputs.versions) }}" 
+    uses: ./.github/workflows/get-checkmk-docker.yml
+    with:
+      version: ${{ matrix.version }}
+      artifact-name: checkmk-docker
 
   test-checkmk-connectivity:
     needs: get-checkmk-docker

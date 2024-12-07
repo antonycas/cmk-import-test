@@ -8,26 +8,26 @@ on:
       version:
         type: string
         required: true
-    outputs:
-      latest-version:
-        description: "Latest Version for Version Input"
-        value: ${{ jobs.get-checkmk-docker.outputs.latest-version }}
+    #outputs:
+    #  latest-version:
+    #    description: "Latest Version for Version Input"
+    #    value: ${{ jobs.get-checkmk-docker.outputs.latest-version }}
 jobs:
   get-checkmk-docker:
     runs-on: ubuntu-latest
-    outputs:
-      latest-version: ${{ steps.get-latest-version.outputs.latest-version }}
+    #outputs:
+    #  latest-version: ${{ steps.get-latest-version.outputs.latest-version }}
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Get Latest Version
-        id: get-latest-version
-        run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
+      #- name: Checkout Code
+      #  uses: actions/checkout@v4
+      #- name: Get Latest Version
+      #  id: get-latest-version
+      #  run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
       - name: Download Checkmk
-        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ steps.get-latest-version.outputs.latest-version }}/check-mk-raw-docker-${{ steps.get-latest-version.outputs.latest-version }}.tar.gz
+        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ inputs.version }}/check-mk-raw-docker-${{ inputs.version }}.tar.gz
       - name: Create Dockerfile Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ inputs.artifact-name }}-${{ steps.get-latest-version.outputs.latest-version }}
-          path: check-mk-raw-docker-${{ steps.get-latest-version.outputs.latest-version }}.tar.gz
+          name: ${{ inputs.artifact-name }}-${{ inputs.version }}
+          path: check-mk-raw-docker-${{ inputs.version }}.tar.gz
           retention-days: 1
