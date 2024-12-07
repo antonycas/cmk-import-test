@@ -39,12 +39,12 @@ jobs:
         run: |
           echo "$version" > version
       - name: Download Checkmk
-        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ version }}/check-mk-raw-docker-${{ version }}.tar.gz
+        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ $version }}/check-mk-raw-docker-${{ $version }}.tar.gz
       - name: Create Dockerfile Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: checkmk-docker-${{ version }}
-          path: check-mk-raw-docker-${{ version }}.tar.gz
+          name: checkmk-docker-${{ $version }}
+          path: check-mk-raw-docker-${{ $version }}.tar.gz
           retention-days: 1
 
   #get-checkmk-docker:
