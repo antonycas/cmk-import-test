@@ -16,7 +16,7 @@ jobs:
     steps:
       - name: echo matrix
         id: output-matrix
-        run: echo "$matrix" >> $GITHUB_OUTPUTS
+        run: echo "matrix=$matrix" >> $GITHUB_OUTPUTS
 
   get-checkmk-docker:
     needs: echo-matrix #get-latest-versions
