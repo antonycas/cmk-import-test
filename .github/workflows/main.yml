@@ -9,16 +9,19 @@ jobs:
   echo-matrix:
     needs: get-latest-versions
     runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.output-matrix.outputs.matrix }}
     env:
       matrix: ${{ needs.get-latest-versions.outputs.versions-matrix }}
     steps:
       - name: echo matrix
-        run: echo "$matrix"
+        id: output-matrix
+        run: echo "$matrix" >> $GITHUB_OUTPUTS
 
   get-checkmk-docker:
     needs: echo-matrix #get-latest-versions
     env:
-      matrix: ${{ needs.get-latest-versions.outputs.versions-matrix }}
+      matrix: ${{ needs.echo-matrix.outputs.versions-matrix }}
     strategy:
       matrix: "${{ fromJSON($matrix) }}" 
     uses: ./.github/workflows/get-checkmk-docker.yml
