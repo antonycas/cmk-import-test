@@ -13,7 +13,9 @@ jobs:
       - name: Output Versions Matrix
         id: output-matrix
         run: |
-          echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT
+          echo 'versions=["2.1.0p49", "2.2.0p37", "2.3.0p22"]' >> $GITHUB_OUTPUT         
+          
+#echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT
 
   echo-matrix:
     needs: get-latest-versions
@@ -31,7 +33,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix: 
-        version: ${{ fromJSON(needs.get-latest-versions.outputs.matrix) }}
+        version: ${{ fromJSON(needs.get-latest-versions.outputs.versions) }}
     steps:
       - name: Define Version
         env:
@@ -39,12 +41,12 @@ jobs:
         run: |
           echo "$version" > version
       - name: Download Checkmk
-        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ $version }}/check-mk-raw-docker-${{ $version }}.tar.gz
+        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ matrix.version }}/check-mk-raw-docker-${{ matrix.version }}.tar.gz
       - name: Create Dockerfile Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: checkmk-docker-${{ $version }}
-          path: check-mk-raw-docker-${{ $version }}.tar.gz
+          name: checkmk-docker-${{ matrix.version }}
+          path: check-mk-raw-docker-${{ matrix.version }}.tar.gz
           retention-days: 1
 
   #get-checkmk-docker:
