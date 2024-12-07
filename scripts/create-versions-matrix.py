@@ -14,8 +14,5 @@ except IndexError as e:
     sys.exit(2)
 
 versions = versions_arg.split(",")
-
 versions_array = [ data["checkmk"][version]["version"] for version in versions ]
-#for version in versions:
-#    versions_array.append(data["checkmk"][version]["version"])
 print(str(versions_array).replace("'",'"'))
