@@ -17,9 +17,11 @@ jobs:
   echo-matrix:
     needs: get-latest-versions
     runs-on: ubuntu-latest
+    env:
+      matrix: ${{ needs.get-latest-versions.outputs.matrix }}
     steps:
       - name: echo
-        run: echo "${{ needs.get-latest-versions.outputs.matrix }}"
+        run: echo "$matrix"
 
   get-checkmk-docker:
     needs: get-latest-versions
@@ -27,7 +29,7 @@ jobs:
     env:
       versions-matrix: ${{ needs.get-latest-versions.outputs.matrix }}
     strategy:
-      matrix: ${{ fromJSON($versions-matrix) }}
+      matrix: ${{ fromJSON(versions-matrix) }}
     steps:
       - name: Download Checkmk
         run: wget --no-verbose https://download.checkmk.com/checkmk/${{ matrix.version }}/check-mk-raw-docker-${{ matrix.version }}.tar.gz
