@@ -1,27 +1,38 @@
 name: Checkmk Test
 on: push
 jobs:
-  get-latest-versions:
-    uses: ./.github/workflows/get-latest-versions.yml
-    with:
-      versions: "2.1.0,2.2.0,2.3.0"
+  #get-latest-versions:
+  #  uses: ./.github/workflows/get-latest-versions.yml
+  #  with:
+  #    versions: "2.1.0,2.2.0,2.3.0"
 
-  echo-matrix:
-    needs: get-latest-versions
+  get-latest-versions:
     runs-on: ubuntu-latest
     outputs:
-      versions-matrix: ${{ steps.output-matrix.outputs.matrix }}
-    env:
-      matrix: ${{ needs.get-latest-versions.outputs.versions-matrix }}
+      matrix: ${{ steps.output-matrix.outputs.matrix }}
     steps:
-      - name: echo matrix
+      - name: Checkout Code
+        uses: actions/checkout@v4
+      - name: Output Versions Matrix
         id: output-matrix
-        run: echo "versions-matrix=$matrix" >> $GITHUB_OUTPUTS
+        run: echo "matrix=$(./scripts/create-versions-matrix.py '2.1.0,2.2.0,2.3.0')" >> $GITHUB_OUTPUT
+
+  # echo-matrix:
+  #   needs: get-latest-versions
+  #   runs-on: ubuntu-latest
+  #   outputs:
+  #     versions-matrix: ${{ steps.output-matrix.outputs.matrix }}
+  #   env:
+  #     matrix: ${{ needs.get-latest-versions.outputs.versions-matrix }}
+  #   steps:
+  #     - name: echo matrix
+  #       id: output-matrix
+  #       run: echo "versions-matrix=$matrix" >> $GITHUB_OUTPUTS
 
   get-checkmk-docker:
-    needs: echo-matrix #get-latest-versions
+    needs: get-latest-versions
     strategy:
-      matrix: "${{ fromJSON(needs.echo-matrix.outputs.versions-matrix) }}" 
+      matrix: "${{ fromJSON(needs.get-latest-versions.outputs.matrix) }}" 
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       version: ${{ matrix.version }}
