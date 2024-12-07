@@ -19,7 +19,7 @@ versions = versions_arg.split(",")
 matrix = {"include": [ {"version": data["checkmk"][version]["version"] } for version in versions ]} 
 json_matrix = str(matrix).replace("'",'\\"')
 
-test_matrix = json.dumps(matrix).replace('"','\\"')
+test_matrix = json.dumps(matrix).replace('"','\\\\"')
 
 print(test_matrix)
 #print(matrix)
