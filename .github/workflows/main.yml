@@ -7,9 +7,11 @@ jobs:
       versions: "2.1.0,2.2.0,2.3.0"
 
   get-checkmk-docker:
-    needs: get-latest-versions 
+    needs: get-latest-versions
+    env:
+      MATRIX: ${{ needs.get-latest-versions.outputs.versions-matrix }}
     strategy:
-      matrix: ${{ fromJSON(needs.get-latest-versions.outputs.versions-matrix) }} 
+      matrix: ${{ fromJSON($MATRIX) }} 
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       version: ${{ matrix.version }}
