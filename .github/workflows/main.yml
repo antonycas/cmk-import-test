@@ -35,11 +35,11 @@ jobs:
       matrix: 
         version: ${{ fromJSON(needs.get-latest-versions.outputs.versions) }}
     steps:
-      - name: Define Version
-        env:
-          version: ${{ matrix.version }}
-        run: |
-          echo "$version" > version
+      #- name: Define Version
+      #  env:
+      #    version: ${{ matrix.version }}
+      #  run: |
+      #    echo "$version" > version
       - name: Download Checkmk
         run: wget --no-verbose https://download.checkmk.com/checkmk/${{ matrix.version }}/check-mk-raw-docker-${{ matrix.version }}.tar.gz
       - name: Create Dockerfile Artifact
