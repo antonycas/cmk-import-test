@@ -20,10 +20,8 @@ jobs:
 
   get-checkmk-docker:
     needs: echo-matrix #get-latest-versions
-    env:
-      matrix: ${{ needs.echo-matrix.outputs.versions-matrix }}
     strategy:
-      matrix: "${{ fromJSON($matrix) }}" 
+      matrix: "${{ fromJSON(needs.echo-matrix.outputs.matrix) }}" 
     uses: ./.github/workflows/get-checkmk-docker.yml
     with:
       version: ${{ matrix.version }}
