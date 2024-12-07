@@ -16,5 +16,4 @@ except IndexError as e:
 versions = versions_arg.split(",")
 matrix = {"include": [ {"version": data["checkmk"][version]["version"] } for version in versions ]} 
 json_matrix = json.dumps(matrix).replace('"','\\"')
-json_string = '"' + json_matrix + '"'
-print(json_string)
+print(json_matrix)
