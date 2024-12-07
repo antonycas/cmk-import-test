@@ -20,8 +20,10 @@ jobs:
     env:
       matrix: ${{ needs.get-latest-versions.outputs.matrix }}
     steps:
-      - name: echo
+      - name: echo env
         run: echo "$matrix"
+      - name: echo needs
+        run: echo "${{ needs.get-latest-versions.outputs.matrix }}"
 
   get-checkmk-docker:
     needs: get-latest-versions
