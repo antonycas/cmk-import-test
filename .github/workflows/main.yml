@@ -6,8 +6,15 @@ jobs:
     with:
       versions: "2.1.0,2.2.0,2.3.0"
 
-  get-checkmk-docker:
+  echo-matrix:
     needs: get-latest-versions
+    runs-on: ubuntu-latest
+    steps:
+      - name: echo matrix
+        run: echo "${{ needs.get-latest-versions.outputs.versions-matrix }}"
+
+  get-checkmk-docker:
+    needs: echo-matrix #get-latest-versions
     env:
       MATRIX: ${{ needs.get-latest-versions.outputs.versions-matrix }}
     strategy:
