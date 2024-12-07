@@ -9,19 +9,19 @@ jobs:
   test-checkmk-connectivity:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Get Latest Version
-        id: get-latest-version
-        run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
+      #- name: Checkout Code
+      #  uses: actions/checkout@v4
+      #- name: Get Latest Version
+      #  id: get-latest-version
+      #  run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
       - name: Download Dockerfile Artifact
         uses: actions/download-artifact@v4
         with:
-          name: "checkmk-docker-${{ steps.get-latest-version.outputs.latest-version }}"
+          name: "checkmk-docker-${{ inputs.version }}"
       - name: Load Docker Container
-        run: docker load -i check-mk-raw-docker-${{ steps.get-latest-version.outputs.latest-version }}.tar.gz
+        run: docker load -i check-mk-raw-docker-${{ inputs.version }}.tar.gz
       - name: Run Docker Container
-        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ steps.get-latest-version.outputs.latest-version }}
+        run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ inputs.version }}
       - name: Sleep to Allow Site Setup
         run: sleep 45s
         shell: bash
