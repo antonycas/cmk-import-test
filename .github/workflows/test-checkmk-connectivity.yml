@@ -9,11 +9,6 @@ jobs:
   test-checkmk-connectivity:
     runs-on: ubuntu-latest
     steps:
-      #- name: Checkout Code
-      #  uses: actions/checkout@v4
-      #- name: Get Latest Version
-      #  id: get-latest-version
-      #  run: echo "latest-version=$(./scripts/get-latest-cmk-version.py ${{ inputs.version }})" >> $GITHUB_OUTPUT
       - name: Download Dockerfile Artifact
         uses: actions/download-artifact@v4
         with:
