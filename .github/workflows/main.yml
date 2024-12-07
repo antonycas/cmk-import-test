@@ -29,7 +29,9 @@ jobs:
       artifact-name: checkmk-docker
 
   test-checkmk-connectivity:
-    needs: get-checkmk-docker
+    needs:
+      - get-latest-versions
+      - get-checkmk-docker
     strategy:
       matrix:
         version: "${{ fromJSON(needs.get-latest-versions.outputs.versions) }}"
