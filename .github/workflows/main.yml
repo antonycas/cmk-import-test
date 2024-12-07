@@ -12,7 +12,8 @@ jobs:
         uses: actions/checkout@v4
       - name: Output Versions Matrix
         id: output-matrix
-        run: echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT
+        run: |
+          echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT
 
   echo-matrix:
     needs: get-latest-versions
@@ -32,13 +33,18 @@ jobs:
       matrix: 
         version: ${{ fromJSON(needs.get-latest-versions.outputs.matrix) }}
     steps:
+      - name: Define Version
+        env:
+          version: ${{ matrix.version }}
+        run: |
+          echo "$version" > version
       - name: Download Checkmk
-        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ matrix.version }}/check-mk-raw-docker-${{ matrix.version }}.tar.gz
+        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ version }}/check-mk-raw-docker-${{ version }}.tar.gz
       - name: Create Dockerfile Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: checkmk-docker-${{ matrix.version }}
-          path: check-mk-raw-docker-${{ matrix.version }}.tar.gz
+          name: checkmk-docker-${{ version }}
+          path: check-mk-raw-docker-${{ version }}.tar.gz
           retention-days: 1
 
   #get-checkmk-docker:
