@@ -25,7 +25,7 @@ jobs:
     needs: get-latest-versions
     runs-on: ubuntu-latest
     env:
-      versions-matrix: ${{ needs.get-latest-vesions.outputs.matrix }}
+      versions-matrix: "${{ needs.get-latest-vesions.outputs.matrix }}"
     strategy:
       matrix: ${{ fromJSON(needs.get-latest-vesions.outputs.matrix) }}
     steps:
