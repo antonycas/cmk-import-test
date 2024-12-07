@@ -9,9 +9,11 @@ jobs:
   echo-matrix:
     needs: get-latest-versions
     runs-on: ubuntu-latest
+    env:
+      matrix: ${{ needs.get-latest-versions.outputs.versions-matrix }}
     steps:
       - name: echo matrix
-        run: echo "${{ needs.get-latest-versions.outputs.versions-matrix }}"
+        run: echo "$matrix"
 
   get-checkmk-docker:
     needs: echo-matrix #get-latest-versions
