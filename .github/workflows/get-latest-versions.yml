@@ -19,6 +19,6 @@ jobs:
         uses: actions/checkout@v4
       - name: Output Versions Matrix
         id: output-versions-matrix
-        run: echo "versions-matrix=$(./scripts/create-versions-matrix.py ${{ inputs.versions }}) | sed s/"/\"/g  " >> $GITHUB_OUTPUT 
+        run: echo "versions-matrix=$(./scripts/create-versions-matrix.py ${{ inputs.versions }}) | sed 's/"/\"/g'  " >> $GITHUB_OUTPUT 
       - name: Echo Versions Matrix
         run: echo "${{ steps.output-versions-matrix.outputs.versions-matrix }}" 
