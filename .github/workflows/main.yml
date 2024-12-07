@@ -13,9 +13,9 @@ jobs:
       - name: Output Versions Matrix
         id: output-matrix
         run: |
-          echo 'versions=$(./scripts/create-versions-matrix.py $versions)' >> $GITHUB_OUTPUT         
+          echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT         
           
-#echo 'versions=["2.1.0p49", "2.2.0p37", "2.3.0p22"]' >> $GITHUB_OUTPUT                   
+# THIS WORKS >> #echo 'versions=["2.1.0p49", "2.2.0p37", "2.3.0p22"]' >> $GITHUB_OUTPUT                   
 #echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT
 
   echo-matrix:
