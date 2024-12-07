@@ -14,6 +14,11 @@ except IndexError as e:
     sys.exit(2)
 
 versions = versions_arg.split(",")
-matrix = {"include": [ {"version": data["checkmk"][version]["version"] } for version in versions ]} 
-json_matrix = json.dumps(matrix).replace('"','\\"')
-print(json_matrix)
+#matrix = {"include": [ {"version": data["checkmk"][version]["version"] } for version in versions ]} 
+#json_matrix = json.dumps(matrix).replace('"','\\"')
+#print(json_matrix)
+
+versions_array = []
+for version in versions:
+    versions_array.append(data["checkmk"][version]["version"])
+print(str(versions_array).replace("'",'"'))
