@@ -3,7 +3,7 @@ on: push
 jobs:
   get-latest-versions:
     runs-on: ubuntu-latest
-    inputs:
+    env:
       versions: '2.1.0,2.2.0,2.3.0'
     outputs:
       matrix: ${{ steps.output-matrix.outputs.matrix }}
@@ -12,7 +12,7 @@ jobs:
         uses: actions/checkout@v4
       - name: Output Versions Matrix
         id: output-matrix
-        run: echo "matrix=$(./scripts/create-versions-matrix.py ${{ inputs.versions }} )" >> $GITHUB_OUTPUT
+        run: echo "matrix=$(./scripts/create-versions-matrix.py $versions )" >> $GITHUB_OUTPUT
 
   echo-matrix:
     needs: get-latest-versions
