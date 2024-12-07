@@ -1,19 +1,24 @@
 name: Checkmk Test
 on: push
 jobs:
+  #get-latest-versions:
+  #  runs-on: ubuntu-latest
+  #  env:
+  #    versions: '2.1.0,2.2.0,2.3.0'
+  #  outputs:
+  #    versions: ${{ steps.output-matrix.outputs.versions }}
+  #  steps:
+  #    - name: Checkout Code
+  #      uses: actions/checkout@v4
+  #    - name: Output Versions Matrix
+  #      id: output-matrix
+  #      run: |
+  #        echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT         
+
   get-latest-versions:
-    runs-on: ubuntu-latest
-    env:
-      versions: '2.1.0,2.2.0,2.3.0'
-    outputs:
-      versions: ${{ steps.output-matrix.outputs.versions }}
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v4
-      - name: Output Versions Matrix
-        id: output-matrix
-        run: |
-          echo "versions=$(./scripts/create-versions-matrix.py $versions)" >> $GITHUB_OUTPUT         
+    uses: ./.github/workflows/get-latest-versions
+    with:
+      versions: '2.1.0,2.2.0,2.3.0' 
 
   get-checkmk-docker:
     needs: get-latest-versions

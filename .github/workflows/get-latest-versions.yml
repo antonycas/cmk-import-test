@@ -6,21 +6,17 @@ on:
         type: string
         required: true
     outputs:
-      versions-matrix:
+      versions:
         description: Versions Matrix From Versions Input
-        value: ${{ jobs.output-versions-matrix.outputs.versions-matrix }}
+        value: ${{ jobs.output-versions.outputs.versions }}
 jobs:
-  output-versions-matrix:
+  output-versions:
     runs-on: ubuntu-latest
     outputs:
-      versions-matrix: ${{ steps.output-versions-matrix.outputs.versions-matrix }}
+      versions: ${{ steps.output-versions.outputs.versions }}
     steps:
       - name: Checkout Code
         uses: actions/checkout@v4
       - name: Output Versions Matrix
-        id: output-versions-matrix
-        run: echo "versions-matrix=$(./scripts/create-versions-matrix.py ${{ inputs.versions }})" >> $GITHUB_OUTPUT 
-      - name: Echo Versions Matrix
-        run: echo "$MATRIX"
-        env:
-          MATRIX: ${{ steps.output-versions-matrix.outputs.versions-matrix }}
+        id: output-versions
+        run: echo "versions=$(./scripts/create-versions-matrix.py ${{ inputs.versions }})" >> $GITHUB_OUTPUT
