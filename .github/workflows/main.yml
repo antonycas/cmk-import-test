@@ -18,12 +18,12 @@ jobs:
     needs: get-latest-versions
     runs-on: ubuntu-latest
     env:
-      matrix: ${{ needs.get-latest-versions.outputs.matrix }}
+      versions: ${{ needs.get-latest-versions.outputs.versions }}
     steps:
       - name: echo env
-        run: echo "$matrix"
+        run: echo "$versions"
       - name: echo needs
-        run: echo "${{ needs.get-latest-versions.outputs.matrix }}"
+        run: echo "${{ needs.get-latest-versions.outputs.versions }}"
 
   get-checkmk-docker:
     needs: get-latest-versions
