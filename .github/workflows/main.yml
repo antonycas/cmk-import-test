@@ -13,7 +13,7 @@ jobs:
       matrix: ${{ needs.get-latest-versions.outputs.versions-matrix }}
     steps:
       - name: echo matrix
-        run: echo "$matrix"
+        run: echo "${{ needs.get-latest-versions.outputs.versions-matrix }}"
 
   get-checkmk-docker:
     needs: echo-matrix #get-latest-versions
