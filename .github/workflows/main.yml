@@ -21,12 +21,29 @@ jobs:
 
   get-checkmk-docker:
     needs: get-latest-versions
+    run-on: ubuntu-latest
+    env:
+      versions-matrix: ${{ needs.get-latest-vesions.outputs.matrix }}
     strategy:
-      matrix: "${{ fromJSON(needs.get-latest-versions.outputs.matrix) }}" 
-    uses: ./.github/workflows/get-checkmk-docker.yml
-    with:
-      version: ${{ matrix.version }}
-      artifact-name: checkmk-docker
+      matrix: ${{ fromJSON($versions-matrix) }}
+    steps:
+      - name: Download Checkmk
+        run: wget --no-verbose https://download.checkmk.com/checkmk/${{ matrix.version }}/check-mk-raw-docker-${{ matrix.version }}.tar.gz
+      - name: Create Dockerfile Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkmk-docker-${{ matrix.version }}
+          path: check-mk-raw-docker-${{ matrix.version }}.tar.gz
+          retention-days: 1
+
+  #get-checkmk-docker:
+  #  needs: get-latest-versions
+  #  strategy:
+  #    matrix: "${{ fromJSON(needs.get-latest-versions.outputs.matrix) }}" 
+  #  uses: ./.github/workflows/get-checkmk-docker.yml
+  #  with:
+  #    version: ${{ matrix.version }}
+  #    artifact-name: checkmk-docker
 
   test-checkmk-connectivity:
     needs: get-checkmk-docker
