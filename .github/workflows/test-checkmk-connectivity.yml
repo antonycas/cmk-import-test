@@ -17,9 +17,10 @@ jobs:
         run: docker load -i check-mk-raw-docker-${{ inputs.version }}.tar.gz
       - name: Run Docker Container
         run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ inputs.version }}
+      - name: Ensure Container Started
+        run: docker container list | grep monitoring
       - name: Sleep to Allow Site Setup
         run: sleep 45s
-        shell: bash
       - name: Output CMK URL
         id: get-cmk-url
         run: echo "cmk-url=$(docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 10)" >> $GITHUB_OUTPUT
