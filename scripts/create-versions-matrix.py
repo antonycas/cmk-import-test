@@ -5,14 +5,25 @@ import json
 
 url = "https://download.checkmk.com/stable_downloads.json"
 res = requests.get(url)
-data = json.loads(res.text)
+data = res.json()
 
-try:
-    versions_arg = sys.argv[1]
-except IndexError as e:
-    print("No Version Provided")
-    sys.exit(2)
+if __name__ == "__main__":
+    try:
+        versions_arg = sys.argv[1]
+        versions = versions_arg.replace(" ","").split(",")
+    except IndexError as e:
+        print("No Version Provided")
+        sys.exit(2)
 
-versions = versions_arg.split(",")
-versions_array = [ data["checkmk"][version]["version"] for version in versions ]
-print(str(versions_array).replace("'",'"'))
+    latest_versions_array = []
+    for version in versions:
+        try:
+            if 'p' in version:
+                latest_versions_array.append(version)
+            else: 
+                latest_versions_array.append(data["checkmk"][version]["version"])
+        except KeyError as e:
+            print(f"No Version found for {version}")
+            sys.exit(2)
+
+    print(str(latest_versions_array).replace("'",'"'))
