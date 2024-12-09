@@ -3,11 +3,12 @@ import sys
 import requests
 import json
 
-url = "https://download.checkmk.com/stable_downloads.json"
-res = requests.get(url)
-data = res.json()
-
 if __name__ == "__main__":
+    
+    url = "https://download.checkmk.com/stable_downloads.json"
+    res = requests.get(url)
+    data = res.json()
+    
     try:
         versions_arg = sys.argv[1]
         versions = versions_arg.replace(" ","").split(",")
