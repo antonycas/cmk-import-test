@@ -15,15 +15,19 @@ jobs:
           name: "checkmk-docker-${{ inputs.version }}"
       - name: Load Docker Container
         run: docker load -i check-mk-raw-docker-${{ inputs.version }}.tar.gz
+      - name: Confirm Existence of Downloaded Docker File
+        run: |
+          if [ -f ${{ check-mk-raw-docker-${{ inputs.version }}.tar.gz }} ]; then
+            exit 0
+          else
+            exit 2
+          fi
       - name: Run Docker Container
         run: docker container run -dit -p 8080:5000 -p 8000:8000 --tmpfs /opt/omd/sites/cmk/tmp:uid=1000,gid=1000 -v monitoring:/omd/sites --name monitoring -v /etc/localtime:/etc/localtime:ro --restart always checkmk/check-mk-raw:${{ inputs.version }}
       - name: Ensure Container Started
         run: docker container list | grep monitoring
       - name: Sleep to Allow Site Setup
         run: sleep 45s
-      - name: Output CMK URL
-        id: get-cmk-url
-        run: echo "cmk-url=$(docker container logs monitoring | grep 'The default web UI is available at' | cut -d ' ' -f 10)" >> $GITHUB_OUTPUT
       - name: Output Automation Secret
         id: output-automation-secret
         run: echo "automation-secret=$(docker exec monitoring sh -c 'cat /opt/omd/sites/cmk/var/check_mk/web/automation/automation.secret')" >> $GITHUB_OUTPUT
