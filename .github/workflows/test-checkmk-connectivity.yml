@@ -17,7 +17,7 @@ jobs:
         run: docker load -i check-mk-raw-docker-${{ inputs.version }}.tar.gz
       - name: Confirm Existence of Downloaded Docker File
         run: |
-          if [ -f ${{ check-mk-raw-docker-${{ inputs.version }}.tar.gz }} ]; then
+          if [ -f check-mk-raw-docker-${{ inputs.version }}.tar.gz ]; then
             exit 0
           else
             exit 2
