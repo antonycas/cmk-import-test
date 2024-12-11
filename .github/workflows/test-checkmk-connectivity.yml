@@ -39,4 +39,4 @@ jobs:
             exit 2
           fi
       - name: Test CheckMK Connectivity
-        run: "curl -vvv http://localhost:8080/cmk/check_mk/api/1.0/domain-types/host_config/collections/all --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation-secret }}' --header 'Accept: application/json'" 
+        run: "curl -vvv http://localhost:8080/cmk/check_mk/api/1.0/version --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation-secret }}' --header 'Accept: application/json'" 
