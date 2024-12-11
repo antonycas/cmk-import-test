@@ -42,7 +42,9 @@ jobs:
         run: |
           api_version=$(curl -s http://localhost:8080/cmk/check_mk/api/1.0/version --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation-secret }}' --header 'Accept: application/json' | jq '.versions.checkmk')
           if [[ ${api_version} == *${{ inputs.version }}* ]]; then
-            echo "Successful Connection to ${api_version}"
+            echo "Successful Connection to ${{ inputs.version }}"
+            exit 0
           else
             echo "Unsuccessful Connection to ${{ inputs.version }}"
+            exit 2
           fi 
