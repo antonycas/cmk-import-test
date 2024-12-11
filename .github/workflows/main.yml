@@ -4,7 +4,8 @@ jobs:
   get-latest-versions:
     uses: ./.github/workflows/get-latest-versions.yml
     with:
-      versions: '2.1.0,2.2.0,2.3.0' 
+      #versions: '2.1.0,2.2.0,2.3.0'
+      versions: '2.1.0' 
 
   get-checkmk-docker:
     needs: get-latest-versions
