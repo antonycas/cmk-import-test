@@ -41,8 +41,8 @@ jobs:
       - name: Test CheckMK Connectivity
         run: |
           api_version=$(curl -s http://localhost:8080/cmk/check_mk/api/1.0/version --header 'Authorization: Bearer automation ${{ steps.output-automation-secret.outputs.automation-secret }}' --header 'Accept: application/json' | jq '.versions.checkmk')
-          if [[ api_version == *${{ inputs.version }}* ]]; then
-            echo "Successful Connection to $(api_version)"
+          if [[ ${api_version} == *${{ inputs.version }}* ]]; then
+            echo "Successful Connection to ${api_version}"
           else
             echo "Unsuccessful Connection to ${{ inputs.version }}"
           fi 
